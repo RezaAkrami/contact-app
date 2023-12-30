@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import Contact from './contact';
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Form = () => {
 
@@ -22,13 +24,27 @@ const Form = () => {
 
     function showData(e){
         e.preventDefault();
-        setContacts((contacts)=>([ ...contacts, data ]));
-        setData({
-            name :"",
-            lastName:"",
-            email:"",
-            phone:"",
-        });
+        if(data.name && data.lastName && data.email && data.phone){
+
+            setContacts((contacts)=>([ ...contacts, data ]));
+            setData({
+                name :"",
+                lastName:"",
+                email:"",
+                phone:"",
+            });
+        }else{
+            toast.error('please fill the form !', {
+                position: "top-left",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
     }
 
     return (
@@ -63,6 +79,19 @@ const Form = () => {
                  : 
                     <li className='py-8 font-bold'>No Contacts Yet!</li>}
             </ul>
+
+            <ToastContainer
+                position="top-left"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     );
 }
